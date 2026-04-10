@@ -32,6 +32,13 @@
 #else
 #define VMX_API extern "C" __attribute__((visibility("default")))
 #endif
+
+/// Stack/global alignment: MSVC uses `__declspec(align)`; GCC and Clang use `__attribute__((aligned))`.
+#if defined(_MSC_VER)
+#define VMX_DECLSPEC_ALIGN(n) __declspec(align(n))
+#else
+#define VMX_DECLSPEC_ALIGN(n) __attribute__((aligned(n)))
+#endif
 #if defined(_M_ARM64) | defined(__arm64) | defined(__aarch64__)
 #define ARM64
 #endif
@@ -129,9 +136,9 @@ struct VMX_SLICE_SET
 	VMX_SIZE PixelSize; //Size in pixels of the slice, for copying from source image data. Due to alignment last slice will be only 8 pixels height for 1080 for example.
 	VMX_SIZE PixelSizeInterlaced; //Same as above but for second field alignment adjustment at the mid point.
 	int LowerField; //=1 when this is a lower field slice
-	__declspec(align(64)) short TempBlock[128];
-	__declspec(align(64)) short TempBlock2[128];
-	__declspec(align(64)) short TempBlock3[128];
+	VMX_DECLSPEC_ALIGN(64) short TempBlock[128];
+	VMX_DECLSPEC_ALIGN(64) short TempBlock2[128];
+	VMX_DECLSPEC_ALIGN(64) short TempBlock3[128];
 };
 
 struct VMX_PLANE

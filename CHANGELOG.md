@@ -4,7 +4,7 @@ All notable changes to this project are documented in this file.
 
 ## 2026-04-10 — Phase 2: CMake build standardization
 
-- **Linux CI (GCC):** apply `-fdeclspec` only for **Clang** (`AppleClang` / `Clang`). GCC does not accept that flag; Ubuntu runners use g++ by default.
+- **Linux CI (GCC):** MSVC `__declspec(align(N))` in VMX sources is replaced with `VMX_DECLSPEC_ALIGN(N)` in `vmxcodec.h` — MSVC keeps `__declspec`, GCC/Clang use `__attribute__((aligned(N)))`. Removed the CMake `-fdeclspec` workaround (GCC never supported that flag; without it, raw `__declspec` did not compile on Ubuntu).
 
 - Initial publish to the **NextGenMediaTransport** organization (`main`); foundational Phase 2 infrastructure commit.
 - Added a root `CMakeLists.txt` using CMake 3.15+ with target-based configuration, C++17, and architecture-specific source selection (x86_64 vs AArch64).
