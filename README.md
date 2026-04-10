@@ -33,7 +33,7 @@ Open Media Transport documentation: https://www.openmediatransport.org/docs/
 
 ## Building with CMake
 
-Requirements: **CMake 3.15+**, a **C++17** compiler, and **Ninja** or **Make** (or Visual Studio on Windows). The build selects **x86_64** or **AArch64** sources from the **host** architecture (one architecture per build). On **x86_64**, GCC and Clang builds add **`-msse4.2`** and **`-mbmi`** to the main VMX translation units so compiler intrinsics match the documented CPU baseline (AVX2 remains limited to `vmxcodec_avx2.cpp` via `-mavx2`, which also sets BMI/LZCNT flags for that file).
+Requirements: **CMake 3.15+**, a **C++17** compiler, and **Ninja** or **Make** (or Visual Studio on Windows). The build selects **x86_64** or **AArch64** sources from the **host** architecture (one architecture per build). On **x86_64**, GCC and Clang builds add **`-msse4.2`**, **`-mbmi`**, and **`-mlzcnt`** to the main VMX translation units so compiler intrinsics match the documented CPU baseline (AVX2 remains limited to `vmxcodec_avx2.cpp` via `-mavx2`).
 
 From the repository root:
 
