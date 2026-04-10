@@ -59,6 +59,12 @@ if(_ngmt_codec_is_x86_64)
   if(MSVC)
     set_source_files_properties(src/vmxcodec_avx2.cpp PROPERTIES COMPILE_OPTIONS "/arch:AVX2")
   else()
+    # GCC/Clang default to generic x86-64 (SSE2). SSE4.1 intrinsics in the x86 sources require
+    # an explicit ISA level; README documents SSE4.2 as the minimum host CPU for x86_64.
+    set_source_files_properties(
+      src/vmxcodec.cpp
+      src/vmxcodec_x86.cpp
+      PROPERTIES COMPILE_OPTIONS "-msse4.2")
     set_source_files_properties(
       src/vmxcodec_avx2.cpp PROPERTIES COMPILE_OPTIONS "-mavx2;-mbmi;-mlzcnt")
   endif()
