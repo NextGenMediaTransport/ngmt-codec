@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+- **Consumers:** [`ngmt-studio`](https://github.com/NextGenMediaTransport/ngmt-studio) links this library via the **`ngmt-vmx-sys`** crate (`build.rs` runs CMake with **`Release`**, sibling checkout of `ngmt-codec`).
+
 ## 2026-04-10 — Phase 2: CMake build standardization
 
 - **Linux CI (GCC):** for **x86_64**, CMake passes **`-msse4.2;-mbmi;-mlzcnt`** to `src/vmxcodec.cpp` and `src/vmxcodec_x86.cpp` on GCC/Clang so SSE4.1, BMI `_tzcnt_u64`, and LZCNT `__lzcnt64` match the translation unit ISA (default generic `x86-64` is SSE2-only and caused “target specific option mismatch” on Ubuntu).
