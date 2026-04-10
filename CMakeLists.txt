@@ -64,7 +64,9 @@ if(_ngmt_codec_is_x86_64)
   endif()
 endif()
 
-if((CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang") AND UNIX)
+# `__declspec` emulation for VMX sources; Clang (incl. AppleClang) accepts `-fdeclspec`.
+# GCC does not — Linux CI uses g++ by default.
+if(UNIX AND NOT WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(ngmt_codec PRIVATE -fdeclspec)
 endif()
 
