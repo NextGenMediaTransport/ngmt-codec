@@ -1,62 +1,77 @@
-# VMX Codec
+# ngmt-codec
 
-VMX is video codec designed for very high encoding/decoding performance in software.
-VMX began as the "vMix Video Codec" used for the vMix Instant Replay feature.
-It has since been expanded with alpha channel support and incorporated into the Open Media Transport protocol.
+`ngmt-codec` is the NextGenMediaTransport packaging of the **VMX** software video codec (forked from upstream **libvmx**). VMX targets very high encode/decode performance in software: low-latency intra-frame operation, 4:2:2:4 with alpha, 10-bit paths, and heavily optimized SIMD (including AVX2 on x86_64 and NEON on AArch64 via sse2neon).
+
+VMX began as the “vMix Video Codec” used for the vMix Instant Replay feature. It has since been expanded with alpha channel support and is used in the Open Media Transport ecosystem.
 
 ## Features
-* Low latency intra-frame only
-* 4:2:2:4 with alpha channel support
-* 10 bit support
-* Highly optimized AVX2 code capable of encoding 2160p60 on a single Intel i7 core
-* Cross platform. (Windows, Mac, Linux) with ARM NEON support provided via sse2neon
+
+- Low latency, intra-frame only
+- 4:2:2:4 with alpha channel support
+- 10-bit support
+- Highly optimized AVX2 paths on x86_64 (e.g. 2160p60 on a single Intel core class CPU)
+- Cross-platform: Windows, Linux, and macOS; ARM NEON support via sse2neon
 
 ## License
-VMX is distributed under a permissive MIT license. Further details can be found in the LICENSE file
 
-## System Requirements
+VMX / ngmt-codec is distributed under a permissive MIT license. See [LICENSE.txt](LICENSE.txt).
+
+## System requirements
 
 ### x86_64
-Minimum: 64bit CPU with SSE4.2 and SSSE3
-Recommended: 64bit CPU with AVX2 support (Intel Haswell (2013) and newer)
 
-### ARM64
-64bit ARM CPU with NEON instructions (ARMv8)
+- Minimum: 64-bit CPU with SSE4.2 and SSSE3
+- Recommended: AVX2 (e.g. Intel Haswell, 2013, and newer)
+
+### AArch64 (ARM64)
+
+- 64-bit ARM CPU with NEON (ARMv8)
 
 ## Documentation
 
-Documentation can be found at: https://www.openmediatransport.org/docs/
+Open Media Transport documentation: https://www.openmediatransport.org/docs/
 
-## Getting Started
+## Building with CMake
 
-Binaries with Library files are available in the Releases section of the libomtnet repo.
-These are available for Windows and MacOS and are the recommended way to get started.
+Requirements: **CMake 3.15+**, a **C++17** compiler, and **Ninja** or **Make** (or Visual Studio on Windows). The build selects **x86_64** or **AArch64** sources from the **host** architecture (one architecture per build).
 
-### C/C++
-Include vmxcodec.h, reference libvmx.lib and you're ready to go.
+From the repository root:
 
-### C#/VB.Net
-All functions can be called with DllImport
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+```
 
-Use IntPtr for the instance type. No structs need to be defined.
+On Windows with a multi-configuration generator (e.g. Visual Studio), use:
 
-## Compiling
+```bash
+cmake -B build
+cmake --build build --config Release --parallel
+```
 
-### Windows
+Outputs (names may vary slightly by platform):
 
-1. Install Visual Studio 2022 and Intel C++ Compiler 2024 or higher
-2. Open libvmx.sln
-3. Build
+- **Shared library:** `libngmt-codec` / `ngmt-codec.dll` / `libngmt-codec.dylib`
+- **CMake install** (optional): installs the library and public headers `vmxcodec.h`, `thread_tasks.h`.
 
-### Linux
+```bash
+cmake --install build --prefix /path/to/install
+```
 
-1. Install Clang
-2. cd ./build
-3. Run ./buildlinuxx64.sh or ./buildlinuxarm64.sh depending on platform
+### Consuming the library (C/C++)
 
-### Mac (ARM64)
+- Add the install prefix (`include`) to your include path and include **`vmxcodec.h`**.
+- Link against the **`ngmt-codec`** library artifact produced above.
+- Exported entry points remain the historical **`VMX_*`** C API (see `exports.def` on Windows).
 
-1. Install xcode with Apple Clang Compiler
-2. cd ./build
-3. Run ./buildmacuniversal.sh
+### C# / VB.NET
 
+Functions can be called via `DllImport`. Use `IntPtr` for the instance handle; you do not need to define native structs.
+
+## Coding style
+
+Formatting uses the repository’s **`.clang-format`** (LLVM-based, aligned with `ngmt-core`).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).

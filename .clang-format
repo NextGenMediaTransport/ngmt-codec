@@ -1,0 +1,6 @@
+---
+# Baseline for ngmt-codec C++; LLVM-derived defaults (aligned with ngmt-core).
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 100
+---
