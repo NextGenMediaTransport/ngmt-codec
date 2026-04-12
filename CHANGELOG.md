@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+- **Branding:** vendored **`branding/svg/marks/ngmt-codec.svg`** + README header.
 - **Consumers:** [`ngmt-studio`](https://github.com/NextGenMediaTransport/ngmt-studio) links this library via the **`ngmt-vmx-sys`** crate (`build.rs` runs CMake with **`Release`**, sibling checkout of `ngmt-codec`).
 
 ## 2026-04-10 — Phase 2: CMake build standardization

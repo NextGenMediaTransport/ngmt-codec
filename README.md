@@ -1,5 +1,7 @@
 # ngmt-codec
 
+<p align="center"><img src="branding/svg/marks/ngmt-codec.svg" width="96" height="96" alt="NGMT Codec mark"/></p>
+
 `ngmt-codec` is the NextGenMediaTransport packaging of the **VMX** software video codec (forked from upstream **libvmx**). VMX targets very high encode/decode performance in software: low-latency intra-frame operation, 4:2:2:4 with alpha, 10-bit paths, and heavily optimized SIMD (including AVX2 on x86_64 and NEON on AArch64 via sse2neon).
 
 VMX began as the “vMix Video Codec” used for the vMix Instant Replay feature. It has since been expanded with alpha channel support and is used in the Open Media Transport ecosystem.
